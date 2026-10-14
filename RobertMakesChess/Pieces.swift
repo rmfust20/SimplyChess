@@ -8,11 +8,12 @@
 import Foundation
 
 protocol GamePiece {
-    func generateMovePath(currentPosition: (Int, Int), board: Board) -> [(Int,Int)]
+    func generateMovePath(currentPosition: (Int, Int), board: Board) -> ([(Int,Int)], [String])
     var color : String {get}
     var type: PieceType {get}
     var sightLine: [(Int,Int)] {get set}
     var position: (Int,Int) {get set}
+    var id: String {get}
 }
 
 struct Rook : GamePiece {
@@ -20,9 +21,11 @@ struct Rook : GamePiece {
     let type : PieceType = .rook
     var sightLine: [(Int,Int)] = []
     var position: (Int,Int)
+    let id: String
     
-     func generateMovePath(currentPosition: (Int,Int), board: Board) -> [(Int,Int)] {
+    func generateMovePath(currentPosition: (Int,Int), board: Board) -> ([(Int,Int)], [String]) {
         var returnList = [(Int,Int)]()
+        var returnDict = [String]()
         
         // this mostly works. The problem here though is we wont return the collision coordinate
         
@@ -31,6 +34,7 @@ struct Rook : GamePiece {
         while tmpUp < 8 {
             if board.tiles[tmpUp][currentPosition.1].piece != nil {
                 returnList.append((tmpUp, currentPosition.1))
+                returnDict.append(board.tiles[tmpUp][currentPosition.1].piece!.id)
                 break
             }
             returnList.append((tmpUp, currentPosition.1))
@@ -42,6 +46,7 @@ struct Rook : GamePiece {
         while tmpDown > -1 {
             if board.tiles[tmpDown][currentPosition.1].piece != nil {
                 returnList.append((tmpDown, currentPosition.1))
+                returnDict.append(board.tiles[tmpDown][currentPosition.1].piece!.id)
                 break
             }
             returnList.append((currentPosition.0 - 1, currentPosition.1))
@@ -53,6 +58,7 @@ struct Rook : GamePiece {
         while tmpLeft > -1 {
             if board.tiles[currentPosition.0][tmpLeft].piece != nil {
                 returnList.append((currentPosition.0, tmpLeft))
+                returnDict.append(board.tiles[currentPosition.0][tmpLeft].piece!.id)
                 break
             }
             returnList.append((currentPosition.0, tmpLeft))
@@ -64,13 +70,14 @@ struct Rook : GamePiece {
         while tmpRight < 8 {
             if board.tiles[currentPosition.0][tmpRight].piece != nil {
                 returnList.append((currentPosition.0, tmpRight))
+                returnDict.append(board.tiles[currentPosition.0][tmpRight].piece!.id)
                 break
             }
             returnList.append((currentPosition.0, tmpRight))
             tmpRight+=1
         }
         
-        return returnList
+        return (returnList,returnDict)
     }
     
     

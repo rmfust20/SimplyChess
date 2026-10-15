@@ -10,12 +10,6 @@ import Foundation
 class BoardBrain {
     var board = Board().tiles
     
-    //on click of a piece a user can click on anywhere on the board and it will either work or not
-    // furthermore if a piece occupies that space if it is the opposing color we initatite a capute
-    // if it is an inavlid move or the same color we ignore the action and keep it open
-    // also invalid if the player moving the piece tries to move a piece that is not their own color
-    
-    // so the signature of this function will be -> it needs the active player, the piece being moved, the current piece location, and the desired location
     
     func processMove(activePlayer: Player, selectedPiece : GamePiece, currentTile: BoardTile, desiredTile: BoardTile) {
         if canMovePiece(activePlayer: activePlayer, selectedPiece: selectedPiece, currentTile: currentTile, desiredTile: desiredTile) {
@@ -31,8 +25,6 @@ class BoardBrain {
             
             board[desiredTile.coord.0][desiredTile.coord.1] = BoardTile(color: desiredTile.color, piece: selectedPiece, coord: desiredTile.coord)
             
-         
-            
             
         }
     }
@@ -46,23 +38,51 @@ class BoardBrain {
             return false
         }
         
+        // cant move to a tile that has one of your pieces on it
         if desiredTile.piece?.color == activePlayer.color {
             return false
         }
-
-        // gather are proposed path
-        func generateMovePath(selectedPiece: GamePiece, currentTile: BoardTile) -> [(Int,Int)] {
-            var returnList = [(Int,Int)]()
             
-            switch selectedPiece.type {
-            case .rook:
-                returnList = selectedPiece.generateMovePath(currentPosition: currentTile.coord, board: Board(tiles: board))
-            }
-            
-            return returnList
-        }
+        var path = selectedPiece.generateMovePath(currentPosition: currentTile.coord, board: Board(tiles: board))
+        
+        // check if this move would put us in check
+        
+        
+       
         
         return true
+    }
+    
+    func WouldPutInCheck(activePlayer: Player, selectedPiece : GamePiece, currentTile: BoardTile, desiredTile: BoardTile, path: (Int,Int)) -> Bool {
+        
+        var allPaths = [(Int,Int)]()
+        
+        // temp move the piece to the new location and see if the king is in check
+        
+        // run generateMovePath for all of the opponents pieces and see if any of them can attack the king
+        // run generate path for every opponent pice and youll get a list of coords
+        // filter those cords to see if any match the kings position
+        
+        // what info am i missing that blocks this logic
+        // well we need a way to iterate all of the pieces on the board
+        // one way to do that is just go through the board determistically and check each tile for a piece if its the opponents the color run a generate path
+        
+        // temp move the piece
+        board[desiredTile.coord.0][desiredTile.coord.1] = BoardTile(color: desiredTile.color, piece: selectedPiece, coord: desiredTile.coord)
+        
+        // piece is in new location all we gotta do is run every path
+        
+        for row in 0..<8 {
+            for col in 0..<8{
+                if let piece = board[row][col].piece {
+                    if piece.color != activePlayer.color {
+                        opponentPath = piece.generateMovePath(currentPosition: (row,col), board: Board(tiles: board))
+                    }
+                }
+            }
+        }
+        
+        return false
     }
         
         

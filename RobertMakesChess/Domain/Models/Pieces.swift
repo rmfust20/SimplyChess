@@ -80,7 +80,8 @@ struct Rook : GamePiece {
 // I think every piece should have a sightline func, where they
 
 enum PieceType {
-    case rook 
+    case rook
+    case king
 }
 
 

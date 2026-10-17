@@ -9,7 +9,7 @@ import Foundation
 
 struct BoardTile {
     let color : String
-    let piece : GamePiece?
+    var piece : GamePiece?
     let coord: (Int, Int)
 }
 

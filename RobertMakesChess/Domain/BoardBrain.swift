@@ -99,7 +99,7 @@ final class BoardBrain {
                 for col in 0..<8 {
                     let color = row + col % 2 == 0 ? "White" : "Black"
                     //we will want to add the pieces here but for now we will just set up the board with empty tiles
-                    board[row][col] = BoardTile(color: color, piece: nil, coord: (row, col))
+                    board[row][col] = BoardTile(color: color, piece: Rook(color:"white", position: (row, col), id: "rook\(row)g\(col)"), coord: (row, col))
                 }
             }
         }

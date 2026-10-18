@@ -6,4 +6,15 @@
 //
 
 import Foundation
+import Combine
 
+final class BoardViewModel: ObservableObject {
+    @Published var board: [[BoardTile]] = []
+    
+    init() {
+        board = BoardBrain.shared.board
+        BoardBrain.shared.setupBoard()
+    }
+    
+    
+}

@@ -12,8 +12,8 @@ struct TileView: View {
     var body: some View {
         ZStack {
             Rectangle()
-                .fill(tile.color == "white" ? Color.white : Color.black)
-                .frame(width: 75, height: 75)
+                .fill(tile.color == "white" ? Color.red : Color.black)
+                .frame(width: 50, height: 50)
             if let piece = tile.piece {
                 PieceView(piece: piece)
             }

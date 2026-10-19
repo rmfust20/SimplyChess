@@ -10,9 +10,9 @@ import SwiftUI
 struct PieceView: View {
     let piece: GamePiece
     var body: some View {
-        Image("rookWhite")
+        Image("whiteRook")
             .resizable()
-            .frame(width: 50, height: 50)
+            .frame(width: 30, height: 30)
     }
 }
 

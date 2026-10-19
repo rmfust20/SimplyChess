@@ -16,5 +16,7 @@ final class BoardViewModel: ObservableObject {
         BoardBrain.shared.setupBoard()
     }
     
+    // before whoop I'd probably keep something here to commuunicate that the board has been tapped and what piece it was
+    
     
 }

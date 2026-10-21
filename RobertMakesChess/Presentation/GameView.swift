@@ -17,6 +17,7 @@ struct GameView: View {
                 ForEach(0..<8, id: \.self) { column in
                     TileView(tile: boardViewModel.board[row][column])
                         .onTapGesture {
+                            boardViewModel.handlePieceTap(selectedTile: boardViewModel.board[row][column])
                             // basically want to highlight the path, we can handle that later
                             //and then it makes the board tappable right?
                             

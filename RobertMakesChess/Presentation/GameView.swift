@@ -8,24 +8,27 @@
 import SwiftUI
 
 struct GameView: View {
-    @StateObject private var boardViewModel = BoardViewModel()
+    @Environment(BoardViewModel.self) private var vm
     var body: some View {
     
         VStack(spacing:0) {
         ForEach(0..<8, id: \.self) { row in
             HStack(spacing:0) {
                 ForEach(0..<8, id: \.self) { column in
-                    TileView(tile: boardViewModel.board[row][column])
+                    TileView(tile: vm.getBoardTile(row: row, column: column))
                         .onTapGesture {
-                            boardViewModel.handlePieceTap(selectedTile: boardViewModel.board[row][column])
-                            // basically want to highlight the path, we can handle that later
-                            //and then it makes the board tappable right?
-                            
-                            //so really when you tap on a piece something on the board needs to react to it
+                            vm.handlePieceTap(row: row, column: column)
                         }
                     }
                 }
             }
+        }
+        
+        switch vm.boardState {
+        case .inProgress:
+            Text("Loading...")
+        default:
+            Text("hello")
         }
     }
 }

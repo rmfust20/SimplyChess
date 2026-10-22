@@ -10,7 +10,7 @@ import Foundation
 //likely will need more in the future but this should get me going
 
 enum BoardState {
-    case initial(board: Board)
+    case initial(board: [[BoardTile]])
     case inProgress
     case processedMove(board: Board)
 }

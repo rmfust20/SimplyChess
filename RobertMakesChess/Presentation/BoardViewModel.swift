@@ -6,14 +6,15 @@
 //
 
 import Foundation
-import Combine
+import SwiftUI
 
-final class BoardViewModel: ObservableObject {
-    @Published var board: [[BoardTile]] = []
+
+@MainActor @Observable class BoardViewModel {
+    var boardState: BoardState
     
     init() {
-        board = BoardBrain.shared.board
         BoardBrain.shared.setupBoard()
+        self.boardState = .initial(board: BoardBrain.shared.board)
     }
     
     // before whoop I'd probably keep something here to commuunicate that the board has been tapped and what piece it was
@@ -25,8 +26,14 @@ final class BoardViewModel: ObservableObject {
         //update the board State
         //process the move and remove highlights
     
-    func handlePieceTap(selectedTile: BoardTile) {
-        //update BoardState to inProgress
+   func getBoardTile(row: Int, column: Int) -> BoardTile {
+        return BoardBrain.shared.board[row][column]
+    }
         
+    
+    func handlePieceTap(row: Int, column: Int) {
+        //update BoardState to inProgress
+        boardState = .inProgress
+        // we have something subscribing to this change which highlights the board
     }
 }

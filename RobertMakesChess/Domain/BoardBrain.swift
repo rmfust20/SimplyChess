@@ -25,8 +25,8 @@ final class BoardBrain {
             board[desiredTile.coord.0][desiredTile.coord.1].piece = selectedPiece
         }
     }
-        
-
+    
+    
     
     func canMovePiece(activePlayer: Player, selectedPiece : GamePiece, currentTile: BoardTile, desiredTile: BoardTile) -> Bool{
         
@@ -68,9 +68,9 @@ final class BoardBrain {
         //tmp move to update sightlines
         
         let storedPiece = board[desiredTile.coord.0][desiredTile.coord.1].piece
- 
+        
         board[desiredTile.coord.0][desiredTile.coord.1].piece = selectedPiece
-
+        
         
         //check all sightlines of the opposing player to see if any of them contain the king position
         for row in 0..<8 {
@@ -92,18 +92,25 @@ final class BoardBrain {
         board[desiredTile.coord.0][desiredTile.coord.1].piece = storedPiece
         return false
     }
-        
-        
-        func setupBoard() {
-            for row in 0..<8 {
-                for col in 0..<8 {
-                    let color = (row + col) % 2 == 0 ? "white" : "black"
-                    //we will want to add the pieces here but for now we will just set up the board with empty tiles
-                    board[row][col] = BoardTile(color: color, piece: Rook(color:"white", position: (row, col), id: "rook\(row)g\(col)"), coord: (row, col))
-                }
+    
+    
+    func setupBoard() {
+        for row in 0..<8 {
+            for col in 0..<8 {
+                let color = (row + col) % 2 == 0 ? "white" : "black"
+                //we will want to add the pieces here but for now we will just set up the board with empty tiles
+                board[row][col] = BoardTile(color: color, piece: Rook(color:"white", position: (row, col), id: "rook\(row)g\(col)"), coord: (row, col))
             }
         }
     }
+    
+    func highlightPath(for piece: GamePiece, at position: (Int, Int)) {
+        let path =  piece.generateMovePath(currentPosition: position, board: Board(tiles: board))
+        for coord in path {
+            board[coord.0][coord.1].highLighted = true
+        }
+    }
+}
     
 
     

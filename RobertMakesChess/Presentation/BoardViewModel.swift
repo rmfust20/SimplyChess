@@ -13,8 +13,7 @@ import SwiftUI
     var boardState: BoardState
     
     init() {
-        BoardBrain.shared.setupBoard()
-        self.boardState = .initial(board: BoardBrain.shared.board)
+        self.boardState = .loaded(board: BoardBrain.shared.board)
     }
     
     // before whoop I'd probably keep something here to commuunicate that the board has been tapped and what piece it was
@@ -31,9 +30,10 @@ import SwiftUI
     }
         
     
-    func handlePieceTap(row: Int, column: Int) {
+    func handlePieceTap(piece: GamePiece, row: Int, column: Int) {
         //update BoardState to inProgress
         boardState = .inProgress
+        BoardBrain.shared.highlightPath(for: piece, at: (row, column))
         // we have something subscribing to this change which highlights the board
     }
 }

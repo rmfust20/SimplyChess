@@ -17,7 +17,7 @@ struct GameView: View {
                 ForEach(0..<8, id: \.self) { column in
                     TileView(tile: vm.getBoardTile(row: row, column: column))
                         .onTapGesture {
-                            vm.handlePieceTap(row: row, column: column)
+                            vm.handlePieceTap(piece: vm.getBoardTile(row: row, column: column).piece!, row: row, column: column)
                         }
                     }
                 }

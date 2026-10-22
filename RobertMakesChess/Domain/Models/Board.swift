@@ -11,6 +11,7 @@ struct BoardTile {
     let color : String
     var piece : GamePiece?
     let coord: (Int, Int)
+    var highLighted : Bool = false
 }
 
 struct Board {
